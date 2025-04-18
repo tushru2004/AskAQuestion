@@ -1,26 +1,20 @@
-package com.example
-
-//#user-registry-actor
+package com.pdf
 import akka.actor.typed.ActorRef
 import akka.actor.typed.Behavior
 import akka.actor.typed.scaladsl.Behaviors
 
 import scala.concurrent.Future
-import scala.collection.immutable
 import akka.actor.typed.ActorSystem
 import akka.http.scaladsl.Http
 import akka.http.scaladsl.model.{ContentTypes, HttpEntity, HttpMethods, HttpRequest, HttpResponse, StatusCodes}
 import akka.http.scaladsl.unmarshalling.Unmarshal
 import akka.http.scaladsl.marshallers.sprayjson.SprayJsonSupport._
-import com.example.JsonFormats._
+import com.pdf.JsonFormats._
 
-import scala.util.{Failure, Success}
 import scala.concurrent.ExecutionContextExecutor
 
 final case class ApiResponse(answer: String)
 final case class Question(question: String)
-
-//#user-case-classes
 
 object QuestionRegistry {
   // actor protocol
@@ -40,7 +34,7 @@ object QuestionRegistry {
         // Create the POST request
         val request = HttpRequest(
           method = HttpMethods.POST,
-          uri = "http://localhost:3557/pdf/ask", // Replace with your endpoint
+          uri = "http://localhost:3557/pdf/ask",
           entity = HttpEntity(
             ContentTypes.`application/json`,
             jsonBody
@@ -51,7 +45,6 @@ object QuestionRegistry {
         responseFuture.flatMap { response =>
           if (response.status == StatusCodes.OK) {
             Unmarshal(response.entity).to[ApiResponse].map { apiResponse =>
-              // Send the actual answer string back
               replyTo ! PostPdfResponse(apiResponse.answer)
             }
           } else {

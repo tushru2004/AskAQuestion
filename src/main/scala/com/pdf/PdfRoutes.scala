@@ -1,11 +1,11 @@
-package com.example
+package com.pdf
 
 import akka.http.scaladsl.server.Directives._
 import akka.http.scaladsl.model.StatusCodes
 import akka.http.scaladsl.server.Route
 
 import scala.concurrent.Future
-import com.example.QuestionRegistry._
+import com.pdf.QuestionRegistry._
 import akka.actor.typed.ActorRef
 import akka.actor.typed.ActorSystem
 import akka.actor.typed.scaladsl.AskPattern._
@@ -16,7 +16,7 @@ import JsonFormats._
 class PdfRoutes(userRegistry: ActorRef[QuestionRegistry.Command])(implicit val system: ActorSystem[_]) {
   
   // If ask takes more time than this to complete the request is failed
-  private implicit val timeout: Timeout = Timeout.create(system.settings.config.getDuration("my-app.routes.ask-timeout"))
+  private implicit val timeout: Timeout = Timeout.create(system.settings.config.getDuration("ask-a-question.routes.ask-timeout"))
 
   def askQuestion(question: Question): Future[PostPdfResponse] =
     userRegistry.ask(AskQuestion(question, _))

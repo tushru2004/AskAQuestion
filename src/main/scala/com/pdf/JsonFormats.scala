@@ -1,13 +1,12 @@
-package com.example
+package com.pdf
 
-import com.example.QuestionRegistry.PostPdfResponse
+import com.pdf.QuestionRegistry.PostPdfResponse
 
 //#json-formats
 import spray.json.RootJsonFormat
 import spray.json.DefaultJsonProtocol
 
 object JsonFormats  {
-  // import the default encoders for primitive types (Int, String, Lists etc)
   import DefaultJsonProtocol._
 
   implicit val questionJsonFormat: RootJsonFormat[Question] = jsonFormat1(Question.apply)
