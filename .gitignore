@@ -1,13 +1,25 @@
-# Ignore IDE files
+# SBT/Maven
+target/
+project/target/
+project/project/
+project/boot/
+
+# IDEs
 .idea/
 *.iml
+.metals/
+.bsp/
+.vscode/
 
-# Ignore build files
-target/
-*.class
+# Dependency caches
+.ivy2/
+.sbt/
 
-# Ignore OS-specific files
+# Temporary files
+*.log
+*.swp
+*.bak
 .DS_Store
 
-# Ignore logs
-*.log
+# Environment files
+.env
